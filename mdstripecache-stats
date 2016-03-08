@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+
+
+import sys
+import os
+import time
+import csv
+
+
+# check args
+if len(sys.argv) != 3:
+	sys.exit ( "Usage: %s <statsfile path> <Device|95th|99th|max>\n" % sys.argv[0] )
+statsfile = sys.argv[1]
+metric = sys.argv[2]
+
+# sanity check file
+timelimit = time.time () - 600
+if not os.path.isfile ( statsfile ) or os.stat ( statsfile ).st_mtime < timelimit:
+	sys.exit ( "ERROR: stats file \"%s\" too old or doesn't exist\n" % statsfile )
+
+# read in data
+with open ( statsfile, 'rt' ) as f:
+	csvr = csv.DictReader ( f )
+	for value in csvr:
+		print value[metric]
+
+
+

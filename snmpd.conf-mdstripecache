@@ -1,0 +1,5 @@
+# md stripe cache stats
+extend mdstripecachedev /etc/snmp/mdstripecache-stats /var/local/snmp/mdstripecache.csv Device
+extend mdstripecache95th /etc/snmp/mdstripecache-stats /var/local/snmp/mdstripecache.csv 95th
+extend mdstripecache99th /etc/snmp/mdstripecache-stats /var/local/snmp/mdstripecache.csv 99th
+extend mdstripecachemax /etc/snmp/mdstripecache-stats /var/local/snmp/mdstripecache.csv max
