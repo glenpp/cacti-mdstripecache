@@ -10,9 +10,9 @@
 				<graph_template_id>hash_0000241857a125a5e250937742393e0c2614ce</graph_template_id>
 				<rrd>
 					<item_000>
-						<snmp_field_name>mdstripecache95th</snmp_field_name>
-						<data_template_id>hash_010024331d12d7db3539810aeb85bc021d1229</data_template_id>
-						<data_template_rrd_id>hash_08002412299d9d3eb21633bcf857356ee86979</data_template_rrd_id>
+						<snmp_field_name>mdstripecacheMax</snmp_field_name>
+						<data_template_id>hash_010024751fa783ecc0841f9aa2f4d174542418</data_template_id>
+						<data_template_rrd_id>hash_0800247431109e6584f0492c9b07db4308ae0f</data_template_rrd_id>
 					</item_000>
 					<item_001>
 						<snmp_field_name>mdstripecache99th</snmp_field_name>
@@ -20,9 +20,9 @@
 						<data_template_rrd_id>hash_080024a7d108cf3ab7b2d0a72c15baf1713842</data_template_rrd_id>
 					</item_001>
 					<item_002>
-						<snmp_field_name>mdstripecacheMax</snmp_field_name>
-						<data_template_id>hash_010024751fa783ecc0841f9aa2f4d174542418</data_template_id>
-						<data_template_rrd_id>hash_0800247431109e6584f0492c9b07db4308ae0f</data_template_rrd_id>
+						<snmp_field_name>mdstripecache95th</snmp_field_name>
+						<data_template_id>hash_010024331d12d7db3539810aeb85bc021d1229</data_template_id>
+						<data_template_rrd_id>hash_08002412299d9d3eb21633bcf857356ee86979</data_template_rrd_id>
 					</item_002>
 				</rrd>
 				<sv_graph>
