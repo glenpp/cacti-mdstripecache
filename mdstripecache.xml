@@ -15,15 +15,13 @@
 			<direction>input</direction>
 			<oid>NET-SNMP-EXTEND-MIB::nsExtendOutLine."mdstripecachedev"</oid>
 		</mdstripecacheDevices>
-<!--
 		<mdstripecacheDescriptions>
 			<name>Description</name>
 			<method>walk</method>
 			<source>value</source>
 			<direction>input</direction>
-			<oid>NET-SNMP-EXTEND-MIB::nsExtendOutLine.""</oid>
+			<oid>NET-SNMP-EXTEND-MIB::nsExtendOutLine."mdstripecachedescrip"</oid>
 		</mdstripecacheDescriptions>
--->
 
 		<mdstripecache95th>
 			<name>md Stripe Cache 95th percentile</name>

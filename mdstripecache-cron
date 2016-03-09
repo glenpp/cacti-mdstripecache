@@ -1,10 +1,29 @@
 #!/usr/bin/env python
+# CRON job for md Stripe Cache Monitoring
+#
+# See: https://www.pitt-pladdy.com/blog/_20160309-081028_0000_Linux_md_RAID5_6_Stripe_Cache_monitoring_on_Cacti_vi_SNMP/
+#
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 
 
 import sys
 import os
 import time
 import glob
+import re
 import csv
 import math
 
@@ -31,6 +50,24 @@ for dev in mddevices:
 		f.close()
 	cacheactives[dev] = []
 
+# read /proc/mdstat for descriptions
+description = {}
+with open ( '/proc/mdstat', 'rt' ) as f:
+	dev = None
+	for line in f:
+		# see if we get a device line
+		devmatch = re.match ( r'^(md\d+)\s*:\s*(\w+\s+raid\S+)\s', line )
+		if devmatch:
+			dev = devmatch.group(1)
+			description[dev] = devmatch.group(2)+' '
+			continue
+		# we use the second line in description
+		if dev != None:
+			description[dev] += line.strip()
+			dev = None	# reset
+			continue
+	f.close()
+
 # sample loop
 nexttime = starttime
 while nexttime < endtime:
@@ -44,13 +81,14 @@ while nexttime < endtime:
 # output percentiles
 with open ( tempfile, 'wt' ) as f:
 	csvw = csv.writer ( f )
-	csvw.writerow ( ['Device','95th','99th','max'] )
+	csvw.writerow ( ['Device','Description','95th','99th','max'] )
 	for dev in mddevices:
 		data = sorted ( cacheactives[dev] )
 		i95 = int ( math.ceil ( float(len(data)-1) * 0.95 ) )
 		i99 = int ( math.ceil ( float(len(data)-1) * 0.99 ) )
 		csvw.writerow ( [
 				dev,
+				description[dev],
 				float(data[i95]) / cachesizes[dev] * 100.,
 				float(data[i99]) / cachesizes[dev] * 100.,
 				float(data[-1]) / cachesizes[dev] * 100.,
