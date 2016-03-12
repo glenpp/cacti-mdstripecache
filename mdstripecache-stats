@@ -4,6 +4,8 @@
 # See: https://www.pitt-pladdy.com/blog/_20160309-081028_0000_Linux_md_RAID5_6_Stripe_Cache_monitoring_on_Cacti_vi_SNMP/
 #
 #
+# Copyright (C) 2016  Glen Pitt-Pladdy
+#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
