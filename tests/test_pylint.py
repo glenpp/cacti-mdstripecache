@@ -19,6 +19,8 @@ EXCLUDE = [
     'tests/'
 ]
 INCLUDE = [
+    'mdstripecache-cron',
+    'mdstripecache-stats',
 ]
 
 
