@@ -1,23 +1,24 @@
 #!/usr/bin/env python3
-"""CRON job for md Stripe Cache Monitoring
+"""
+CRON job for md Stripe Cache Monitoring
 
-See: https://www.pitt-pladdy.com/blog/_20160309-081028_0000_Linux_md_RAID5_6_Stripe_Cache_monitoring_on_Cacti_vi_SNMP/
+See: https://github.com/glenpp/cacti-mdstripecache
 
 
-Copyright (C) 2016  Glen Pitt-Pladdy
+Copyright (C) 2016-2023  Glen Pitt-Pladdy
 
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 
@@ -31,13 +32,12 @@ import math
 
 
 def main(argv):
-    """Grab the stats to cache file
-    """
+    """Grab the stats to cache file"""
     # check args
     if len(argv) != 4:
-        sys.exit("Usage: {} <statsfile path> <run for seconds> <sample interval seconds>\n".format(argv[0]))
+        sys.exit(f"Usage: {argv[0]} <statsfile path> <run for seconds> <sample interval seconds>\n")
     statsfile = argv[1]
-    tempfile = '{}.TMP-{:d}'.format(statsfile, os.getpid())
+    tempfile = f'{statsfile}.TMP-{os.getpid():d}'
     runfor = float(argv[2])
     interval = float(argv[3])
 
@@ -50,7 +50,7 @@ def main(argv):
     cachesizes = {}
     cacheactives = {}
     for dev in mddevices:
-        with open(os.path.join('/sys/block', dev, 'md/stripe_cache_size')) as f_size:
+        with open(os.path.join('/sys/block', dev, 'md/stripe_cache_size'), 'rt') as f_size:
             cachesizes[dev] = int(f_size.read())
         cacheactives[dev] = []
 
@@ -66,7 +66,7 @@ def main(argv):
                 description[dev] = devmatch.group(2) + ' '
                 continue
             # we use the second line in description
-            if dev != None:
+            if dev is not None:
                 description[dev] += line.strip()
                 dev = None    # reset
                 continue
@@ -75,7 +75,7 @@ def main(argv):
     nexttime = starttime
     while nexttime < endtime:
         for dev in mddevices:
-            with open(os.path.join('/sys/block', dev, 'md/stripe_cache_active')) as f_active:
+            with open(os.path.join('/sys/block', dev, 'md/stripe_cache_active'), 'rt') as f_active:
                 cacheactives[dev].append(int(f_active.read()))
         nexttime = nexttime + interval
         time.sleep(nexttime - time.time())
@@ -99,6 +99,6 @@ def main(argv):
             )
     os.rename(tempfile, statsfile)
 
+
 if __name__ == '__main__':
     main(sys.argv)
-
